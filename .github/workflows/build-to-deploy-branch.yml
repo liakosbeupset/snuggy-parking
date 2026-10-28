@@ -1,0 +1,69 @@
+name: Build to deploy branch (Laravel Vite)
+
+on:
+  push:
+    branches: ["main"]
+
+concurrency:
+  group: build-deploy-branch
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main (with deploy bot token)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.DEPLOY_BOT_TOKEN }}
+
+      - name: Setup Node (LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      # The Wayfinder Vite plugin runs `php artisan wayfinder:generate` during the build.
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2
+          coverage: none
+
+      - name: Install PHP dependencies
+        run: composer install --no-dev --no-interaction --prefer-dist --no-progress
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build assets (Vite)
+        run: npm run build
+
+      - name: Update deploy branch with built assets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "Beupset Deploy Bot"
+          git config user.email "info@beupset.gr"
+
+          # Use the current repo dynamically (OWNER/REPO)
+          REPO="${{ github.repository }}"
+          git remote set-url origin "https://x-access-token:${{ secrets.DEPLOY_BOT_TOKEN }}@github.com/${REPO}.git"
+
+          # Recreate deploy branch from current main HEAD
+          git checkout -B deploy
+
+          # Vite build artifacts (force add even if ignored)
+          [ -d public/build ] && git add -f public/build
+
+          if git diff --cached --quiet; then
+            echo "No build changes to commit."
+          else
+            git commit -m "Build assets for $(git rev-parse --short HEAD) [skip ci]"
+          fi
+
+          git push -f origin deploy

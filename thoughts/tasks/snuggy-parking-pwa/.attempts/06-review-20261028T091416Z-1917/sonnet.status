@@ -1,0 +1,8 @@
+transport=sonnet
+state=ok
+exit=0
+model=sonnet(alias; CLI reports no resolved id)
+degraded=
+reason=effort=xhigh
+ended=2026-10-28T09:21:32Z
+ended_epoch=1793179292

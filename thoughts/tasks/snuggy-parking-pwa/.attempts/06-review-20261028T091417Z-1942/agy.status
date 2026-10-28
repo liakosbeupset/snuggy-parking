@@ -1,0 +1,8 @@
+transport=agy
+state=FAILED
+exit=3
+model=gemini-3.8-flash-high
+degraded=
+reason=exit=3, output missing/empty
+ended=2026-10-28T09:19:02Z
+ended_epoch=1793179142

@@ -1,0 +1,57 @@
+<script setup lang="ts">
+import type { HTMLAttributes } from 'vue';
+
+defineOptions({
+    inheritAttrs: false,
+});
+
+type Props = {
+    className?: HTMLAttributes['class'];
+};
+
+defineProps<Props>();
+</script>
+
+<template>
+    <!-- The Snuggy Parking mark; same drawing as resources/icons/logo.svg. -->
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512 512"
+        :class="className"
+        v-bind="$attrs"
+    >
+        <rect width="512" height="512" rx="112" fill="#0f766e" />
+        <g transform="translate(0 40)">
+            <path
+                d="M256 170C200 130 176 104 176 80c0-22 18-36 38-36 18 0 34 10 42 26 8-16 24-26 42-26 20 0 38 14 38 36 0 24-24 50-80 90z"
+                fill="#fda4af"
+            />
+            <path d="M160 262l40-66h112l40 66z" fill="#ffffff" />
+            <path d="M184 252l28-42h88l28 42z" fill="#0f766e" />
+            <rect
+                x="88"
+                y="252"
+                width="336"
+                height="100"
+                rx="36"
+                fill="#ffffff"
+            />
+            <circle
+                cx="172"
+                cy="352"
+                r="40"
+                fill="#134e4a"
+                stroke="#ffffff"
+                stroke-width="14"
+            />
+            <circle
+                cx="340"
+                cy="352"
+                r="40"
+                fill="#134e4a"
+                stroke="#ffffff"
+                stroke-width="14"
+            />
+        </g>
+    </svg>
+</template>

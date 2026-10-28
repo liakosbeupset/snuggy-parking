@@ -1,0 +1,8 @@
+transport=opus
+state=ok
+exit=0
+model=opus(alias; CLI reports no resolved id)
+degraded=
+reason=effort=xhigh
+ended=2026-10-28T09:26:42Z
+ended_epoch=1793179602

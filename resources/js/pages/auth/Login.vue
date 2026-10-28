@@ -6,7 +6,7 @@ import { redirect } from '@/routes/auth/google';
 defineOptions({
     layout: {
         title: 'Snuggy Parking',
-        description: 'Remember where the household car is parked',
+        description: 'Never lose the household car again',
     },
 });
 </script>
